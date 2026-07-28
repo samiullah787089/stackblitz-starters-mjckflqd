@@ -12,9 +12,36 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans flex h-screen transition-colors duration-200">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans flex flex-col md:flex-row h-screen transition-colors duration-200">
 
-    <!-- Navigation Sidebar -->
+    <!-- Mobile Header (Visible only on small screens) -->
+    <div class="md:hidden flex justify-between items-center p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <h2 class="text-xl font-extrabold text-blue-600 dark:text-blue-400">AI Dash</h2>
+        <button onclick="toggleMobileMenu()" class="text-gray-600 dark:text-gray-300 focus:outline-none text-2xl">
+            ☰
+        </button>
+    </div>
+
+    <!-- Mobile Slide-Out Sidebar Drawer -->
+    <div id="mobile-menu" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden md:hidden flex">
+        <div class="w-64 bg-white dark:bg-gray-800 h-full p-6 flex flex-col justify-between shadow-xl">
+            <div>
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-extrabold text-blue-600 dark:text-blue-400">AI Dash</h2>
+                    <button onclick="toggleMobileMenu()" class="text-gray-500 dark:text-gray-400 text-xl font-bold">✕</button>
+                </div>
+                <nav class="space-y-2">
+                    <a href="#" onclick="showSection('overview'); toggleMobileMenu();" class="block px-3 py-2 rounded-lg text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-gray-700 font-semibold">Overview</a>
+                    <a href="#" onclick="showSection('models'); toggleMobileMenu();" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold">Models</a>
+                    <a href="#" onclick="showSection('settings'); toggleMobileMenu();" class="block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold">Settings</a>
+                </nav>
+            </div>
+        </div>
+        <!-- Click background backdrop to close -->
+        <div class="flex-1" onclick="toggleMobileMenu()"></div>
+    </div>
+
+    <!-- Desktop Navigation Sidebar -->
     <div class="w-64 bg-white dark:bg-gray-800 shadow-md p-6 hidden md:block border-r border-gray-200 dark:border-gray-700">
         <h2 class="text-2xl font-extrabold text-blue-600 dark:text-blue-400 mb-8">AI Dash</h2>
         <nav class="space-y-1">
@@ -25,14 +52,14 @@
     </div>
 
     <!-- Main Content Area -->
-    <div class="flex-1 p-10 overflow-y-auto">
+    <div class="flex-1 p-6 md:p-10 overflow-y-auto">
         <!-- Top Header & Dark Mode Toggle -->
         <div class="flex justify-between items-center mb-6">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Dashboard Control</h1>
-                <p class="mt-1 text-gray-600 dark:text-gray-400">Monitor your AI system's performance and settings.</p>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Dashboard Control</h1>
+                <p class="mt-1 text-sm md:text-base text-gray-600 dark:text-gray-400">Monitor your AI system's performance and settings.</p>
             </div>
-            <button onclick="toggleDarkMode()" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+            <button onclick="toggleDarkMode()" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-2 md:px-4 md:py-2 rounded-lg font-semibold shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm md:text-base">
                 <span id="dark-mode-icon">🌙 Dark Mode</span>
             </button>
         </div>
@@ -96,7 +123,7 @@
     </div>
 
     <!-- Live Data Button -->
-    <button onclick="updateData()" class="fixed bottom-8 right-8 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg font-bold hover:bg-blue-700">
+    <button id="fetch-btn" onclick="updateData()" class="fixed bottom-8 right-8 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg font-bold hover:bg-blue-700 transition">
         Fetch Live Data
     </button>
 
@@ -142,30 +169,55 @@
             myChart.update();
         }
 
-        // Live Token Generator Function
-        function updateData() {
-            let newNumber = Math.floor(Math.random() * 5000000);
-            document.getElementById('token-data').innerText = newNumber.toLocaleString();
+        // Live API Fetching (Fetches real live data over HTTPS)
+        async function updateData() {
+            const tokenElement = document.getElementById('token-data');
+            const button = document.getElementById('fetch-btn');
+            
+            button.innerText = "Connecting to API...";
+            button.disabled = true;
+
+            try {
+                // Fetch real live price feed from CoinDesk public API
+                const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json');
+                if (!response.ok) throw new Error('API network response failed');
+                const data = await response.json();
+                
+                // Format real live rate
+                const liveRate = Math.round(data.bpi.USD.rate_float);
+                tokenElement.innerText = liveRate.toLocaleString();
+            } catch (error) {
+                console.error('Error fetching live data:', error);
+                alert('Could not connect to live API endpoint.');
+            } finally {
+                button.innerText = "Fetch Live Data";
+                button.disabled = false;
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
         }
 
         // Section Switcher + Active Link Highlight Function
         function showSection(sectionId) {
-            // Hide sections
             document.getElementById('section-overview').classList.add('hidden');
             document.getElementById('section-models').classList.add('hidden');
             document.getElementById('section-settings').classList.add('hidden');
 
-            // Show target section
             document.getElementById('section-' + sectionId).classList.remove('hidden');
 
-            // Update active link highlighting
             const links = ['overview', 'models', 'settings'];
             links.forEach(id => {
                 const link = document.getElementById('nav-' + id);
-                if (id === sectionId) {
-                    link.className = "block px-3 py-2 rounded-lg text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-gray-700 font-semibold transition";
-                } else {
-                    link.className = "block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold transition";
+                if (link) {
+                    if (id === sectionId) {
+                        link.className = "block px-3 py-2 rounded-lg text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-gray-700 font-semibold transition";
+                    } else {
+                        link.className = "block px-3 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold transition";
+                    }
                 }
             });
         }
@@ -186,7 +238,7 @@
             }
         }
 
-        // Restore Saved Dark Mode Preference on Page Load
+        // Restore Saved Dark Mode Preference on Load
         (function restoreTheme() {
             const savedTheme = localStorage.getItem('theme');
             const icon = document.getElementById('dark-mode-icon');
