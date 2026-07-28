@@ -4,18 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Business Dashboard</title>
-    <!-- Here is the CDN link that pipes in Tailwind CSS for free! -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<!-- The body is what actually shows up on the screen. 
-     We are giving it a light gray background (bg-gray-100). -->
-<body class="bg-gray-100 text-gray-800 font-sans">
-    
-    <div class="p-8">
-        <!-- text-3xl makes the text big, text-blue-600 makes it blue -->
-        <h1 class="text-3xl font-bold text-blue-600">My AI Dashboard</h1>
-        <p class="mt-2 text-gray-600">Welcome to the control center.</p>
+<body class="bg-gray-100 text-gray-800 font-sans flex h-screen">
+
+    <!-- Navigation Sidebar -->
+    <div class="w-64 bg-white shadow-md p-6 hidden md:block">
+        <h2 class="text-2xl font-extrabold text-blue-600 mb-8">AI Dash</h2>
+        <nav>
+            <a href="#" class="block py-2 text-gray-600 font-semibold hover:text-blue-500">Overview</a>
+            <a href="#" class="block py-2 text-gray-600 font-semibold hover:text-blue-500">Models</a>
+            <a href="#" class="block py-2 text-gray-600 font-semibold hover:text-blue-500">Settings</a>
+        </nav>
     </div>
 
+    <!-- Main Content Area -->
+    <div class="flex-1 p-10 overflow-y-auto">
+        <h1 class="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
+        <p class="mt-2 text-gray-600">Monitor your AI system's performance.</p>
+
+        <!-- Metric Cards -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="text-sm font-medium text-gray-500">Total Tokens Used</h3>
+                <p id="token-data" class="text-3xl font-bold text-gray-800 mt-2">1,245,000</p>
+                <p class="text-sm text-green-500 mt-2">+12% from last month</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="text-sm font-medium text-gray-500">Monthly AI Cost</h3>
+                <p class="text-3xl font-bold text-gray-800 mt-2">$342.50</p>
+                <p class="text-sm text-red-500 mt-2">+5% from last month</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="text-sm font-medium text-gray-500">Active Models</h3>
+                <p class="text-3xl font-bold text-gray-800 mt-2">4</p>
+                <p class="text-sm text-gray-400 mt-2">GPT-4, Claude, Gemini, Llama</p>
+            </div>
+        </div>
+
+        <!-- Interactive Chart Section -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">API Usage (Last 7 Days)</h3>
+            <canvas id="myChart" height="100"></canvas>
+        </div>
+    </div>
+
+    <!-- Live Data Button -->
+    <button onclick="updateData()" class="fixed bottom-8 right-8 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg font-bold hover:bg-blue-700">
+        Fetch Live Data
+    </button>
+
+    <!-- Scripts: Chart.js & Custom Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'API Calls',
+                    data: [1200, 1900, 3000, 5000, 2400, 2100, 3200],
+                    borderColor: '#2563eb',
+                    tension: 0.4
+                }]
+            }
+        });
+
+        function updateData() {
+            let newNumber = Math.floor(Math.random() * 5000000);
+            document.getElementById('token-data').innerText = newNumber.toLocaleString();
+        }
+    </script>
 </body>
 </html>
