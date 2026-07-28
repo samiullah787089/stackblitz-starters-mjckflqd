@@ -11,67 +11,68 @@
     <!-- Navigation Sidebar -->
     <div class="w-64 bg-white shadow-md p-6 hidden md:block">
         <h2 class="text-2xl font-extrabold text-blue-600 mb-8">AI Dash</h2>
-       <nav>
-  <nav>
-    <a href="#" onclick="showSection('overview')" class="block py-2 text-blue-600 font-semibold hover:text-blue-500">Overview</a>
-    <a href="#" onclick="showSection('models')" class="block py-2 text-gray-600 font-semibold hover:text-blue-500">Models</a>
-    <a href="#" onclick="showSection('settings')" class="block py-2 text-gray-600 font-semibold hover:text-blue-500">Settings</a>
-</nav>
-</nav>
+        <nav>
+            <a href="#" onclick="showSection('overview')" class="block py-2 text-blue-600 font-semibold hover:text-blue-500">Overview</a>
+            <a href="#" onclick="showSection('models')" class="block py-2 text-gray-600 font-semibold hover:text-blue-500">Models</a>
+            <a href="#" onclick="showSection('settings')" class="block py-2 text-gray-600 font-semibold hover:text-blue-500">Settings</a>
+        </nav>
     </div>
 
     <!-- Main Content Area -->
     <div class="flex-1 p-10 overflow-y-auto">
-        <h1 class="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p class="mt-2 text-gray-600">Monitor your AI system's performance.</p>
-<div id="section-overview">
-        <!-- Metric Cards -->
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-sm font-medium text-gray-500">Total Tokens Used</h3>
-                <p id="token-data" class="text-3xl font-bold text-gray-800 mt-2">1,245,000</p>
-                <p class="text-sm text-green-500 mt-2">+12% from last month</p>
+        <h1 class="text-3xl font-bold text-gray-900">Dashboard Control</h1>
+        <p class="mt-2 text-gray-600">Monitor your AI system's performance and settings.</p>
+
+        <!-- SECTION 1: OVERVIEW -->
+        <div id="section-overview">
+            <!-- Metric Cards -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-sm font-medium text-gray-500">Total Tokens Used</h3>
+                    <p id="token-data" class="text-3xl font-bold text-gray-800 mt-2">1,245,000</p>
+                    <p class="text-sm text-green-500 mt-2">+12% from last month</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-sm font-medium text-gray-500">Monthly AI Cost</h3>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">$342.50</p>
+                    <p class="text-sm text-red-500 mt-2">+5% from last month</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-sm font-medium text-gray-500">Active Models</h3>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">4</p>
+                    <p class="text-sm text-gray-400 mt-2">GPT-4, Claude, Gemini, Llama</p>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-sm font-medium text-gray-500">Monthly AI Cost</h3>
-                <p class="text-3xl font-bold text-gray-800 mt-2">$342.50</p>
-                <p class="text-sm text-red-500 mt-2">+5% from last month</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h3 class="text-sm font-medium text-gray-500">Active Models</h3>
-                <p class="text-3xl font-bold text-gray-800 mt-2">4</p>
-                <p class="text-sm text-gray-400 mt-2">GPT-4, Claude, Gemini, Llama</p>
+
+            <!-- Interactive Chart Section -->
+            <div class="mt-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">API Usage (Last 7 Days)</h3>
+                <canvas id="myChart" height="100"></canvas>
             </div>
         </div>
 
-        <!-- Interactive Chart Section -->
-        <div class="mt-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-            <h3 class="text-lg font-bold text-gray-800 mb-4">API Usage (Last 7 Days)</h3>
-            <canvas id="myChart" height="100"></canvas>
+        <!-- SECTION 2: MODELS (Hidden by default) -->
+        <div id="section-models" class="hidden mt-8 bg-white p-6 rounded-lg shadow-sm">
+            <h2 class="text-2xl font-bold text-gray-800">Active AI Models</h2>
+            <p class="text-gray-600 mt-2">Manage your connected neural networks.</p>
+            <ul class="mt-4 space-y-2">
+                <li class="p-3 bg-gray-50 rounded font-semibold text-blue-600">● GPT-4o — Operational</li>
+                <li class="p-3 bg-gray-50 rounded font-semibold text-purple-600">● Claude 3.5 Sonnet — Operational</li>
+                <li class="p-3 bg-gray-50 rounded font-semibold text-green-600">● Gemini 1.5 Pro — Operational</li>
+            </ul>
         </div>
-    </div>
-    <!-- SECTION 2: MODELS (Hidden by default) -->
-<div id="section-models" class="hidden mt-8 bg-white p-6 rounded-lg shadow-sm">
-    <h2 class="text-2xl font-bold text-gray-800">Active AI Models</h2>
-    <p class="text-gray-600 mt-2">Manage your connected neural networks.</p>
-    <ul class="mt-4 space-y-2">
-        <li class="p-3 bg-gray-50 rounded font-semibold text-blue-600">● GPT-4o — Operational</li>
-        <li class="p-3 bg-gray-50 rounded font-semibold text-purple-600">● Claude 3.5 Sonnet — Operational</li>
-        <li class="p-3 bg-gray-50 rounded font-semibold text-green-600">● Gemini 1.5 Pro — Operational</li>
-    </ul>
-</div>
 
-<!-- SECTION 3: SETTINGS (Hidden by default) -->
-<div id="section-settings" class="hidden mt-8 bg-white p-6 rounded-lg shadow-sm">
-    <h2 class="text-2xl font-bold text-gray-800">Account Settings</h2>
-    <p class="text-gray-600 mt-2">Configure API credentials and notifications.</p>
-    <div class="mt-4 space-y-4">
-        <div>
-            <label class="block text-sm font-medium text-gray-700">API Key</label>
-            <input type="password" value="sk-proj-123456789" class="mt-1 p-2 border rounded w-full max-w-xs bg-gray-50" disabled>
+        <!-- SECTION 3: SETTINGS (Hidden by default) -->
+        <div id="section-settings" class="hidden mt-8 bg-white p-6 rounded-lg shadow-sm">
+            <h2 class="text-2xl font-bold text-gray-800">Account Settings</h2>
+            <p class="text-gray-600 mt-2">Configure API credentials and notifications.</p>
+            <div class="mt-4 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">API Key</label>
+                    <input type="password" value="sk-proj-123456789" class="mt-1 p-2 border rounded w-full max-w-xs bg-gray-50" disabled>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
     </div>
 
     <!-- Live Data Button -->
@@ -79,7 +80,7 @@
         Fetch Live Data
     </button>
 
-    <!-- Scripts: Chart.js & Custom Logic -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('myChart');
@@ -99,6 +100,15 @@
         function updateData() {
             let newNumber = Math.floor(Math.random() * 5000000);
             document.getElementById('token-data').innerText = newNumber.toLocaleString();
+        }
+
+        // Section Switcher Function
+        function showSection(sectionId) {
+            document.getElementById('section-overview').classList.add('hidden');
+            document.getElementById('section-models').classList.add('hidden');
+            document.getElementById('section-settings').classList.add('hidden');
+
+            document.getElementById('section-' + sectionId).classList.remove('hidden');
         }
     </script>
 </body>
