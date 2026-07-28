@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Business Dashboard</title>
-    <!-- Configure Tailwind for Class-Based Dark Mode -->
+    <!-- Load Tailwind CDN first -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind Dark Mode -->
     <script>
-        tailwind = {
-            config: {
-                darkMode: 'class'
-            }
+        tailwind.config = {
+            darkMode: 'class'
         }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans flex h-screen transition-colors duration-200">
 
@@ -28,13 +27,12 @@
 
     <!-- Main Content Area -->
     <div class="flex-1 p-10 overflow-y-auto">
-        <!-- Top Bar with Header & Dark Mode Toggle -->
+        <!-- Top Header & Dark Mode Toggle -->
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Dashboard Control</h1>
                 <p class="mt-1 text-gray-600 dark:text-gray-400">Monitor your AI system's performance and settings.</p>
             </div>
-            <!-- Dark Mode Toggle Button -->
             <button onclick="toggleDarkMode()" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition">
                 <span id="dark-mode-icon">🌙 Dark Mode</span>
             </button>
@@ -42,7 +40,6 @@
 
         <!-- SECTION 1: OVERVIEW -->
         <div id="section-overview">
-            <!-- Metric Cards -->
             <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
                     <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Tokens Used</h3>
@@ -61,7 +58,6 @@
                 </div>
             </div>
 
-            <!-- Interactive Chart Section -->
             <div class="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
                 <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">API Usage (Last 7 Days)</h3>
                 <canvas id="myChart" height="100"></canvas>
@@ -119,7 +115,6 @@
             document.getElementById('token-data').innerText = newNumber.toLocaleString();
         }
 
-        // Section Switcher Function
         function showSection(sectionId) {
             document.getElementById('section-overview').classList.add('hidden');
             document.getElementById('section-models').classList.add('hidden');
@@ -128,7 +123,6 @@
             document.getElementById('section-' + sectionId).classList.remove('hidden');
         }
 
-        // Dark Mode Toggle Function
         function toggleDarkMode() {
             const htmlTag = document.documentElement;
             const icon = document.getElementById('dark-mode-icon');
